@@ -1,4 +1,4 @@
-'use strict';
+"use strict";
 
 /*
    Please familiarize with test tasks below before you start. This JS file is the only place you need to edit to finish all of them. To help you with completing all these tasks we placed "TODO" comments in appropriate places, pointing to certain task by a number. Have fun!
@@ -27,7 +27,6 @@
     P.S.: You can also copy all of these files into your preferred local IDE for convenient debugging and then paste updated JS file back into JSFiddle to share it with us! If you prefer this approach - don't forget to link the CSS file and the JS file via HTML file in your local project.
  */
 
-
 window.GAME = (() => {
   const KeyCodes = {
     ESCAPE: 27,
@@ -41,7 +40,7 @@ window.GAME = (() => {
   const GameFrame = {
     WIDTH: 500,
     HEIGHT: 250,
-  }
+  };
 
   const GameObjectType = {
     PLAYER: 0,
@@ -67,16 +66,17 @@ window.GAME = (() => {
     WIN: 1,
     FAIL: 2,
     PAUSE: 3,
-    INTRO: 4
+    INTRO: 4,
   };
 
   const GameConst = {
     Fireball: {
       size: 30,
       gravity: 0.3,
-      getSpeed: (isLeftDirection) => isLeftDirection
-        ? Math.floor((Math.random() * 5 + 3))
-        : Math.floor((Math.random() * 10 + 1)), // TODO [TASK 2.1]
+      getSpeed: (isLeftDirection) =>
+        isLeftDirection
+          ? Math.floor(Math.random() * 5 + 3)
+          : Math.floor(Math.random() * 10 + 1), // TODO [TASK 2.1]
     },
     Player: {
       speed: 2,
@@ -89,46 +89,46 @@ window.GAME = (() => {
       speed: 1,
       width: 100,
       height: 82,
-      getX: (width) => width * 2 / 3,
+      getX: (width) => (width * 2) / 3,
       getY: (height) => height - 82,
-    }
+    },
   };
 
-  const FLIPPED = '-reversed';
+  const FLIPPED = "-reversed";
 
   const GameSpritesData = {
     [GameObjectType.PLAYER]: {
       width: 150,
       height: 150,
-      url: 'https://interns.room4.team/test-task-v1/player.png',
+      url: "https://interns.room4.team/test-task-v1/player.png",
     },
     [GameObjectType.PLAYER + FLIPPED]: {
       width: 120,
       height: 120,
-      url: 'https://interns.room4.team/test-task-v1/player-reversed.png',
+      url: "https://interns.room4.team/test-task-v1/player-reversed.png",
     },
     [GameObjectType.FIREBALL]: {
       width: 28,
       height: 14,
-      url: 'https://interns.room4.team/test-task-v1/comet.png',
+      url: "https://interns.room4.team/test-task-v1/comet.png",
     },
     [GameObjectType.ENEMY]: {
       width: 78,
       height: 82,
-      url: 'https://interns.room4.team/test-task-v1/enemy.png',
+      url: "https://interns.room4.team/test-task-v1/enemy.png",
     },
     [GameObjectType.ENEMY + FLIPPED]: {
       width: 78,
       height: 82,
-      url: 'https://interns.room4.team/test-task-v1/enemy-reversed.png',
+      url: "https://interns.room4.team/test-task-v1/enemy-reversed.png",
     },
   };
 
   const GAME_MESSAGES = {
-    [GameStatus.WIN]: 'You win!\nYeah!',
-    [GameStatus.FAIL]: 'You loose!',
-    [GameStatus.PAUSE]: 'Game paused!\nPress Space to continue',
-    [GameStatus.INTRO]: 'Welcome!\nPress Space to start the game',
+    [GameStatus.WIN]: "You win!\nYeah!",
+    [GameStatus.FAIL]: "You loose!",
+    [GameStatus.PAUSE]: "Game paused!\nPress Space to continue",
+    [GameStatus.INTRO]: "Welcome!\nPress Space to start the game",
   };
 
   /** @abstract */
@@ -142,7 +142,7 @@ window.GAME = (() => {
       this.y = y;
       this.angle = angle;
 
-      this.state = ObjectState.ACTIVE
+      this.state = ObjectState.ACTIVE;
       this.sprite = null;
       this.type = null;
     }
@@ -165,7 +165,7 @@ window.GAME = (() => {
 
     /** @abstract */
     behave(gameState, timeFrame) {
-      throw new Error('Method is not implemented');
+      throw new Error("Method is not implemented");
     }
   }
 
@@ -176,14 +176,16 @@ window.GAME = (() => {
       const fireballHeight = GameConst.Fireball.size;
 
       const fireballX = this._checkDirection(MovementDirection.RIGHT)
-          ? this.x + this.width - fireballWidth / 2
-          : this.x - GameConst.Fireball.size - fireballWidth / 2;
+        ? this.x + this.width - fireballWidth / 2
+        : this.x - GameConst.Fireball.size - fireballWidth / 2;
 
       const fireballY = this.y + this.height / 2;
 
       const fireballObj = new FireballObject({
         direction: this.direction,
-        speed: GameConst.Fireball.getSpeed(this._checkDirection(MovementDirection.LEFT)),
+        speed: GameConst.Fireball.getSpeed(
+          this._checkDirection(MovementDirection.LEFT)
+        ),
         width: fireballWidth,
         height: fireballHeight,
         x: fireballX,
@@ -207,7 +209,6 @@ window.GAME = (() => {
      * @param {number} timeframe
      */
     behave(gameState, timeframe) {
-
       // TODO [TASK 1.1]
       if (gameState.keysPressed.UP && this.y > 0) {
         this._setDirection(MovementDirection.UP);
@@ -217,7 +218,7 @@ window.GAME = (() => {
       if (!gameState.keysPressed.UP) {
         if (this.y < GameFrame.HEIGHT - this.height + 15) {
           this._setDirection(MovementDirection.DOWN);
-          this.y += this.speed * timeframe / 3;
+          this.y += (this.speed * timeframe) / 3;
         }
       }
 
@@ -232,10 +233,13 @@ window.GAME = (() => {
         this._setDirection(MovementDirection.LEFT);
         this.x -= this.speed * timeframe * 2;
         if (this.x < 0) {
-            this.x = 0;
+          this.x = 0;
         }
       }
-      if (gameState.keysPressed.RIGHT && this.x <= GameFrame.WIDTH - GameConst.Player.width) {
+      if (
+        gameState.keysPressed.RIGHT &&
+        this.x <= GameFrame.WIDTH - GameConst.Player.width
+      ) {
         this._setDirection(MovementDirection.RIGHT);
         this.x += this.speed * timeframe * 2;
       }
@@ -258,30 +262,28 @@ window.GAME = (() => {
      * @param {Object} gameState
      * @param {number} timeframe
      */
-    behave(gameState, timeframe) {  
-        
-        // TODO [TASK 3.1]
-        if (this.direction === MovementDirection.LEFT) {
-            this.x -= this.speed * timeframe;            
-        }
-        if (this.direction === MovementDirection.RIGHT) {
-            this.x += this.speed * timeframe;            
-        }
+    behave(gameState, timeframe) {
+      // TODO [TASK 3.1]
+      if (this.direction === MovementDirection.LEFT) {
+        this.x -= this.speed * timeframe;
+      }
+      if (this.direction === MovementDirection.RIGHT) {
+        this.x += this.speed * timeframe;
+      }
 
-        if (this.x <= 0) {
-            this._setDirection(MovementDirection.RIGHT);
-        }
-        if (this.x >= GameFrame.WIDTH - GameConst.Enemy.width) {            
-            this._setDirection(MovementDirection.LEFT);
-        }
-        
-      
+      if (this.x <= 0) {
+        this._setDirection(MovementDirection.RIGHT);
+      }
+      if (this.x >= GameFrame.WIDTH - GameConst.Enemy.width) {
+        this._setDirection(MovementDirection.LEFT);
+      }
+
       // TODO [TASK 3.2]
-        const shouldThrowFireball = Math.random() > 0.994;
-        if (shouldThrowFireball) {    
-            console.log('FIRE!');              
-            this._throwFireball(gameState);  
-        }
+      const shouldThrowFireball = Math.random() > 0.994;
+      if (shouldThrowFireball) {
+        console.log("FIRE!");
+        this._throwFireball(gameState);
+      }
       // TODO [TASK 5.2]
     }
   }
@@ -300,11 +302,11 @@ window.GAME = (() => {
      */
     behave(gameState, timeframe) {
       if (this._checkDirection(MovementDirection.LEFT)) {
-        this.x -= this.speed * timeframe;        
+        this.x -= this.speed * timeframe;
       }
 
       if (this._checkDirection(MovementDirection.RIGHT)) {
-        this.x += this.speed * timeframe;        
+        this.x += this.speed * timeframe;
       }
 
       this.y += GameConst.Fireball.gravity * timeframe;
@@ -322,22 +324,30 @@ window.GAME = (() => {
      * @return {GameStatus}
      */
     (gameState) => {
-        // TODO [TASK 5.1]
-        const player = gameState.objects.filter((object) => object.type === GameObjectType.PLAYER)[0];
-        const activeFireballs = gameState.objects.filter(object => object.type === GameObjectType.FIREBALL);
-            
-        const isPlayerHited = activeFireballs.filter(fireball => {        
-            return fireball.x > player.x + 30
-                && fireball.x < (player.x + player.width - 30)
-                && fireball.y > player.y + 2
-                && fireball.y < (player.y + player.height - 2)
-        })[0];
+      // TODO [TASK 5.1]
+      const player = gameState.objects.filter(
+        (object) => object.type === GameObjectType.PLAYER
+      )[0];
+      const activeFireballs = gameState.objects.filter(
+        (object) => object.type === GameObjectType.FIREBALL
+      );
 
-        if (isPlayerHited) {          
-            player.state = ObjectState.DISPOSED;
-        }      
-                
-        return player.state === ObjectState.DISPOSED ? GameStatus.FAIL : GameStatus.CONTINUE;
+      const isPlayerHited = activeFireballs.filter((fireball) => {
+        return (
+          fireball.x > player.x + 30 &&
+          fireball.x < player.x + player.width - 30 &&
+          fireball.y > player.y + 2 &&
+          fireball.y < player.y + player.height - 2
+        );
+      })[0];
+
+      if (isPlayerHited) {
+        player.state = ObjectState.DISPOSED;
+      }
+
+      return player.state === ObjectState.DISPOSED
+        ? GameStatus.FAIL
+        : GameStatus.CONTINUE;
     },
 
     /**
@@ -356,21 +366,29 @@ window.GAME = (() => {
      * @return {GameStatus}
      */
     (gameState) => {
-      const activeFireballs = gameState.objects.filter(object => object.type === GameObjectType.FIREBALL);
-      const enemy = gameState.objects.filter(object => object.type === GameObjectType.ENEMY)[0];   
-            
-      const isEnemyHited = activeFireballs.filter(fireball => {        
-        return fireball.x > enemy.x + 30
-            && fireball.x < (enemy.x + enemy.width - 30)
-            && fireball.y > enemy.y + 2
-            && fireball.y < (enemy.y + enemy.height - 2)
+      const activeFireballs = gameState.objects.filter(
+        (object) => object.type === GameObjectType.FIREBALL
+      );
+      const enemy = gameState.objects.filter(
+        (object) => object.type === GameObjectType.ENEMY
+      )[0];
+
+      const isEnemyHited = activeFireballs.filter((fireball) => {
+        return (
+          fireball.x > enemy.x + 30 &&
+          fireball.x < enemy.x + enemy.width - 30 &&
+          fireball.y > enemy.y + 2 &&
+          fireball.y < enemy.y + enemy.height - 2
+        );
       })[0];
 
-      if (isEnemyHited) {          
+      if (isEnemyHited) {
         enemy.state = ObjectState.DISPOSED;
-    }
+      }
 
-      return enemy.state === ObjectState.DISPOSED ? GameStatus.WIN : GameStatus.CONTINUE;
+      return enemy.state === ObjectState.DISPOSED
+        ? GameStatus.WIN
+        : GameStatus.CONTINUE;
     },
   ];
 
@@ -381,7 +399,7 @@ window.GAME = (() => {
       speed: GameConst.Player.speed,
       width: GameConst.Player.width,
       x: GameConst.Player.getX(GameFrame.WIDTH),
-      y: GameConst.Player.getY(GameFrame.HEIGHT)
+      y: GameConst.Player.getY(GameFrame.HEIGHT),
     });
 
     const enemyObj = new EnemyObject({
@@ -390,8 +408,8 @@ window.GAME = (() => {
       speed: GameConst.Enemy.speed,
       width: GameConst.Enemy.width,
       x: GameConst.Enemy.getX(GameFrame.WIDTH),
-      y: GameConst.Enemy.getY(GameFrame.HEIGHT)
-    })
+      y: GameConst.Enemy.getY(GameFrame.HEIGHT),
+    });
 
     gameState.objects.push(playerObj);
     gameState.objects.push(enemyObj);
@@ -419,12 +437,12 @@ window.GAME = (() => {
     }
 
     _prepareRenderingContext() {
-      this.canvas = document.createElement('canvas');
+      this.canvas = document.createElement("canvas");
       this.canvas.width = this.container.clientWidth;
       this.canvas.height = this.container.clientHeight;
       this.container.appendChild(this.canvas);
 
-      this.ctx = this.canvas.getContext('2d');
+      this.ctx = this.canvas.getContext("2d");
     }
 
     /** @param {boolean} deactivated */
@@ -450,7 +468,14 @@ window.GAME = (() => {
         currentStatus: GameStatus.CONTINUE,
         objectsToDispose: [], // deleted objects since the last game tick
         lastUpdated: null,
-        keysPressed: { ESC: false, SPACE: false, LEFT: false, RIGHT: false, UP: false, DOWN: false },
+        keysPressed: {
+          ESC: false,
+          SPACE: false,
+          LEFT: false,
+          RIGHT: false,
+          UP: false,
+          DOWN: false,
+        },
         gameStartedAt: null,
         objects: [],
         startTime: null,
@@ -496,7 +521,7 @@ window.GAME = (() => {
       this.state.lastUpdated = null;
 
       this._removeGameListeners();
-      window.addEventListener('keydown', this._pauseListener);
+      window.addEventListener("keydown", this._pauseListener);
 
       this._drawPauseScreen();
     }
@@ -509,10 +534,12 @@ window.GAME = (() => {
       if (evt.keyCode === KeyCodes.SPACE && !this._deactivated) {
         evt.preventDefault();
 
-        const isRestart = [GameStatus.WIN, GameStatus.FAIL].includes(this.state.currentStatus);
+        const isRestart = [GameStatus.WIN, GameStatus.FAIL].includes(
+          this.state.currentStatus
+        );
         this.initializeLevelAndStart(isRestart);
 
-        window.removeEventListener('keydown', this._pauseListener);
+        window.removeEventListener("keydown", this._pauseListener);
       }
     }
 
@@ -541,15 +568,17 @@ window.GAME = (() => {
         ctx.fill();
       };
 
-      ctx.fillStyle = 'rgba(256, 256, 256, .3)';
+      ctx.fillStyle = "rgba(256, 256, 256, .3)";
       drawCloud(195, 85, 220, 100);
 
-      ctx.fillStyle = 'rgba(256, 256, 256, 0.8)';
+      ctx.fillStyle = "rgba(256, 256, 256, 0.8)";
       drawCloud(190, 80, 220, 100);
 
-      ctx.fillStyle = '#000';
-      ctx.font = '16px PT Mono';
-      message.split('\n').forEach((line, i) => ctx.fillText(line, 210, 130 + 20 * i));
+      ctx.fillStyle = "#000";
+      ctx.font = "16px PT Mono";
+      message
+        .split("\n")
+        .forEach((line, i) => ctx.fillText(line, 210, 130 + 20 * i));
     }
 
     /**
@@ -558,14 +587,14 @@ window.GAME = (() => {
      * @private
      */
     _loadSpriteObject(spriteObj) {
-      return new Promise((resolve => {
+      return new Promise((resolve) => {
         const image = new Image(spriteObj.width, spriteObj.height);
         image.src = spriteObj.url;
         image.onload = () => {
           spriteObj.image = image;
           resolve();
         };
-      }));
+      });
     }
 
     /** @private */
@@ -575,7 +604,11 @@ window.GAME = (() => {
       }
 
       const keys = Object.keys(GameSpritesData);
-      await Promise.all(keys.map(GameSpritesDataKey => this._loadSpriteObject(GameSpritesData[GameSpritesDataKey])));
+      await Promise.all(
+        keys.map((GameSpritesDataKey) =>
+          this._loadSpriteObject(GameSpritesData[GameSpritesDataKey])
+        )
+      );
       this._mediaIsPreloaded = true;
     }
 
@@ -584,9 +617,13 @@ window.GAME = (() => {
      */
     processGameObjects(delta) {
       this.state.objectsToDispose = [];
-      this.state.objects.forEach(object => object.behave(this.state, delta));
-      this.state.objectsToDispose = this.state.objects.filter(object => object.state === ObjectState.DISPOSED);
-      this.state.objects = this.state.objects.filter(object => !this.state.objectsToDispose.includes(object));
+      this.state.objects.forEach((object) => object.behave(this.state, delta));
+      this.state.objectsToDispose = this.state.objects.filter(
+        (object) => object.state === ObjectState.DISPOSED
+      );
+      this.state.objects = this.state.objects.filter(
+        (object) => !this.state.objectsToDispose.includes(object)
+      );
     }
 
     checkStatus() {
@@ -597,7 +634,10 @@ window.GAME = (() => {
       let currentCheck = GameStatus.CONTINUE;
       let ruleIdx = 0;
 
-      while (ruleIdx < this.rules.length && currentCheck === GameStatus.CONTINUE) {
+      while (
+        ruleIdx < this.rules.length &&
+        currentCheck === GameStatus.CONTINUE
+      ) {
         currentCheck = this.rules[ruleIdx](this.state);
         ruleIdx++;
       }
@@ -617,17 +657,19 @@ window.GAME = (() => {
     render() {
       this.ctx.clearRect(0, 0, GameFrame.WIDTH, GameFrame.HEIGHT);
 
-      this.state.objects.forEach(object => {
+      this.state.objects.forEach((object) => {
         if (!object.sprite) {
           return;
         }
 
         const isFlipped = object.direction & MovementDirection.LEFT;
-        const sprite = GameSpritesData[object.type + (isFlipped ? FLIPPED : '')] || GameSpritesData[object.type];
+        const sprite =
+          GameSpritesData[object.type + (isFlipped ? FLIPPED : "")] ||
+          GameSpritesData[object.type];
 
         this.ctx.save();
         this.ctx.translate(object.x, object.y);
-        this.ctx.rotate(object.angle * Math.PI / 180);
+        this.ctx.rotate((object.angle * Math.PI) / 180);
         this.ctx.drawImage(sprite.image, 0, 0, object.width, object.height);
         this.ctx.restore();
       });
@@ -667,12 +709,12 @@ window.GAME = (() => {
      */
     _updateKeyState(evt, stateModifierVal) {
       const keysMap = {
-        [KeyCodes.ARROW_LEFT]: 'LEFT',
-        [KeyCodes.ARROW_RIGHT]: 'RIGHT',
-        [KeyCodes.ARROW_UP]: 'UP',
-        [KeyCodes.ARROW_DOWN]: 'DOWN',
-        [KeyCodes.ESCAPE]: 'ESC',
-        [KeyCodes.SPACE]: 'SPACE',
+        [KeyCodes.ARROW_LEFT]: "LEFT",
+        [KeyCodes.ARROW_RIGHT]: "RIGHT",
+        [KeyCodes.ARROW_UP]: "UP",
+        [KeyCodes.ARROW_DOWN]: "DOWN",
+        [KeyCodes.ESCAPE]: "ESC",
+        [KeyCodes.SPACE]: "SPACE",
       };
 
       if (keysMap.hasOwnProperty(evt.keyCode)) {
@@ -702,18 +744,22 @@ window.GAME = (() => {
 
     /** @private */
     _initializeGameListeners() {
-      window.addEventListener('keydown', this._onKeyDown);
-      window.addEventListener('keyup', this._onKeyUp);
+      window.addEventListener("keydown", this._onKeyDown);
+      window.addEventListener("keyup", this._onKeyUp);
     }
 
     /** @private */
     _removeGameListeners() {
-      window.removeEventListener('keydown', this._onKeyDown);
-      window.removeEventListener('keyup', this._onKeyUp);
+      window.removeEventListener("keydown", this._onKeyDown);
+      window.removeEventListener("keyup", this._onKeyUp);
     }
   }
 
-  const game = new Game(document.querySelector('#game-area'), GAME_RULES, onLevelInitialized);
+  const game = new Game(
+    document.querySelector("#game-area"),
+    GAME_RULES,
+    onLevelInitialized
+  );
 
   window.restartGame = () => {
     game.initializeLevelAndStart();
