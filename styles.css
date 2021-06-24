@@ -1,0 +1,100 @@
+html,
+body {
+    font: 20px 'PT Mono';
+    width: 100%;
+    min-width: 500px;
+    margin: 0;
+    margin: 0 auto;
+    padding: 0;
+
+    color: #fff;
+    background: #CACACA;
+}
+
+h1,
+h2 {
+    text-align: center;
+
+    text-shadow: 5px 5px 0 rgba(0, 0, 0, .72);
+}
+
+.hidden {
+    display: none;
+}
+
+.section-title {
+    position: relative;
+
+    height: 52px;
+
+    text-indent: -1000em;
+}
+
+header {
+    position: relative;
+
+    padding-top: 80px;
+
+    text-align: center;
+
+    border-bottom: solid 10px #a0a0a0;
+    background: #05101f url(https://interns.room4.team/test-task-v1/pluto.png) repeat;
+}
+
+.header-title {
+    height: 101px;
+    margin-bottom: 30px;
+}
+
+.header-soon {
+    font-size: 26px;
+
+    position: relative;
+    z-index: 1;
+
+    color: #fff;
+    color: rgba(255, 255, 255, .6);
+}
+
+.header-title {
+    font-size: 69px;
+
+    position: relative;
+    z-index: 1;
+
+    margin: 0 0 28px;
+    padding: 0;
+}
+
+.header-description {
+    font-size: 20px;
+    line-height: 1.5;
+
+    position: relative;
+    z-index: 1;
+
+    width: 500px;
+    margin: 0 auto;
+}
+
+#game-area {
+    width: 500px;
+    height: 250px;
+    margin: 0 auto;
+}
+
+main {
+    padding-top: 80px;
+
+    background: linear-gradient(180deg, #ae340a, #fcb945);
+}
+
+.main-section {
+    box-sizing: border-box;
+    margin: 0 auto 60px;
+    padding: 10px;
+}
+
+canvas {
+    border: 2px solid #fff;
+}
